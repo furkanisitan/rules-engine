@@ -14,7 +14,7 @@ public static class RuleExecutor
         var assemblyList = assemblies.ToList();
         assemblyList.Add(Assembly.GetCallingAssembly());
 
-        foreach (var ruleInfo in GetRuleInfos(assemblyList, typeof(TRule)))
+        foreach (var ruleInfo in GetRuleInfos(typeof(TRule), assemblyList.ToArray()))
         {
             if (Activator.CreateInstance(ruleInfo.RuleType) is not IRule<TRequest, TResponse> rule) continue;
             if (!rule.CanApply(request)) continue;
@@ -26,7 +26,7 @@ public static class RuleExecutor
         return response;
     }
 
-    public static IEnumerable<RuleInfo> GetRuleInfos(IEnumerable<Assembly> assemblies, Type ruleType)
+    public static IEnumerable<RuleInfo> GetRuleInfos(Type ruleType, params Assembly[] assemblies)
     {
         return assemblies
             .Where(a => !a.IsDynamic)
