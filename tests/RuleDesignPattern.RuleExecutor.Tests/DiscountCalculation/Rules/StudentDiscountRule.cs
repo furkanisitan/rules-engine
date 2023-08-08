@@ -3,6 +3,7 @@
 /// <summary>
 ///     Applies a 20% discount to citizens who are students.
 /// </summary>
+[RuleOption(RuleType.StartBreak)]
 internal class StudentDiscountRule : IDiscountRule
 {
     public bool CanApply(DiscountRuleRequest request) =>
@@ -12,7 +13,7 @@ internal class StudentDiscountRule : IDiscountRule
     {
         const decimal discountRate = 0.2M;
 
-        response.TotalDiscountRate += discountRate;
-        response.TotalDiscountAmount += request.Price * discountRate;
+        response.TotalDiscountRate = discountRate;
+        response.TotalDiscountAmount = request.Price * discountRate;
     }
 }

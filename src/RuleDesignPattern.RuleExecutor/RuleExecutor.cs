@@ -27,6 +27,9 @@ public static class RuleExecutor
             if (!rule.CanApply(request)) continue;
 
             rule.Apply(request, response);
+
+            if (Attribute.GetCustomAttribute(ruleType, typeof(RuleOptionAttribute)) is RuleOptionAttribute { RuleType: RuleType.StartBreak })
+                break;
         }
 
         return response;
