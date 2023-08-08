@@ -10,7 +10,7 @@ internal class RuleExecutor_ExecuteShould_DiscountCalculation
         new object[]
         {
             new DiscountRuleRequest { Price = 100, IsCitizen = true, IsStudent = true, IsMarried = true },
-            new DiscountRuleResponse { TotalDiscountAmount = 20, TotalDiscountRate = .2M }
+            new DiscountRuleResponse { TotalDiscountAmount = 40, TotalDiscountRate = .4M }
         },
         new object[]
         {
