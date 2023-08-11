@@ -1,6 +1,6 @@
-﻿using RuleDesignPattern.RuleExecutor.Tests.DiscountCalculation;
+﻿using RuleDesignPattern.RuleEngine.Tests.DiscountCalculation;
 
-namespace RuleDesignPattern.RuleExecutor.Tests;
+namespace RuleDesignPattern.RuleEngine.Tests;
 
 [TestFixture]
 internal class RuleExecutor_ExecuteShould_DiscountCalculation
@@ -53,7 +53,7 @@ internal class RuleExecutor_ExecuteShould_DiscountCalculation
     [TestCaseSource(nameof(TestData))]
     public void Execute_InputIsFromTestData_ResponseIsEqualToResult(DiscountRuleRequest request, DiscountRuleResponse response)
     {
-        var result = RuleExecutor.Execute<IDiscountRule, DiscountRuleRequest, DiscountRuleResponse>(request);
+        var result = RuleEngine.RuleExecutor.Execute<IDiscountRule, DiscountRuleRequest, DiscountRuleResponse>(request);
 
         Assert.AreEqual(response.TotalDiscountAmount, result.TotalDiscountAmount);
         Assert.AreEqual(response.TotalDiscountRate, result.TotalDiscountRate);

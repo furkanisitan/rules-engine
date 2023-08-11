@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using RuleDesignPattern.RuleExecutor.Rules;
+using RuleDesignPattern.RuleEngine.Rules;
 
-namespace RuleDesignPattern.RuleExecutor;
+namespace RuleDesignPattern.RuleEngine;
 
 public static class RuleExecutor
 {

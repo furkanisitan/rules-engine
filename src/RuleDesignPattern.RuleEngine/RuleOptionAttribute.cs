@@ -1,4 +1,4 @@
-﻿namespace RuleDesignPattern.RuleExecutor;
+﻿namespace RuleDesignPattern.RuleEngine;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 public class RuleOptionAttribute : Attribute

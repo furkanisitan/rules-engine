@@ -1,4 +1,4 @@
-﻿namespace RuleDesignPattern.RuleExecutor.Tests.DiscountCalculation;
+﻿namespace RuleDesignPattern.RuleEngine.Tests.DiscountCalculation;
 
 internal class DiscountRuleRequest : IRuleRequest
 {

@@ -1,4 +1,4 @@
-﻿namespace RuleDesignPattern.RuleExecutor.Tests.DiscountCalculation.Rules;
+﻿namespace RuleDesignPattern.RuleEngine.Tests.DiscountCalculation.Rules;
 
 /// <summary>
 ///     Applies a 20% compound discount to citizens who are students.

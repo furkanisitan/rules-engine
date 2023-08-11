@@ -1,4 +1,4 @@
-﻿namespace RuleDesignPattern.RuleExecutor.Rules;
+﻿namespace RuleDesignPattern.RuleEngine.Rules;
 
 public interface IRule<in TRequest, in TResponse>
     where TRequest : IRuleRequest

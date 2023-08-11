@@ -1,4 +1,4 @@
-﻿namespace RuleDesignPattern.RuleExecutor;
+﻿namespace RuleDesignPattern.RuleEngine;
 
 public class RuleInfo
 {
