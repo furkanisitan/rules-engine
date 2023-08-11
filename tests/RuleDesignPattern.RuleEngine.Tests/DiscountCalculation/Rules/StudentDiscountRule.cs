@@ -4,16 +4,18 @@
 ///     Applies a 20% compound discount to citizens who are students.
 /// </summary>
 [RuleOption(RuleType.End)]
-internal class StudentDiscountRule : IDiscountRule
+internal struct StudentDiscountRule : IDiscountRule
 {
+    private const decimal DiscountRate = 0.2M;
+
     public bool CanApply(DiscountRuleRequest request) =>
         request is { IsCitizen: true, IsStudent: true };
 
-    public void Apply(DiscountRuleRequest request, DiscountRuleResponse response)
+    public DiscountRuleResponse Apply(DiscountRuleRequest request, DiscountRuleResponse response)
     {
-        const decimal discountRate = 0.2M;
+        response.TotalDiscountRate += (1 - response.TotalDiscountRate) * DiscountRate;
+        response.TotalDiscountAmount += (request.Price - response.TotalDiscountAmount) * DiscountRate;
 
-        response.TotalDiscountRate += (1 - response.TotalDiscountRate) * discountRate;
-        response.TotalDiscountAmount += (request.Price - response.TotalDiscountAmount) * discountRate;
+        return response;
     }
 }

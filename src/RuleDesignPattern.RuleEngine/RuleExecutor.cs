@@ -20,7 +20,7 @@ public static class RuleExecutor
             if (Activator.CreateInstance(ruleInfo.RuleType) is not IRule<TRequest, TResponse> rule) continue;
             if (!rule.CanApply(request)) continue;
 
-            rule.Apply(request, response);
+            response = rule.Apply(request, response);
             if (ruleInfo.RuleOption is { RuleType: RuleType.StartBreak }) break;
         }
 
@@ -33,7 +33,7 @@ public static class RuleExecutor
             .Where(a => !a.IsDynamic)
             .Distinct()
             .SelectMany(a => a.DefinedTypes)
-            .Where(t => t is { IsClass: true, IsAbstract: false } && t.IsAssignableTo(ruleType))
+            .Where(t => t is { IsAbstract: false } && t.IsAssignableTo(ruleType))
             .Select(t => new RuleInfo
             {
                 RuleType = t,

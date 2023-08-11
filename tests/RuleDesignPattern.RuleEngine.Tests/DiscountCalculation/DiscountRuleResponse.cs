@@ -1,6 +1,6 @@
 ﻿namespace RuleDesignPattern.RuleEngine.Tests.DiscountCalculation;
 
-internal class DiscountRuleResponse : IRuleResponse
+internal struct DiscountRuleResponse : IRuleResponse
 {
     public decimal TotalDiscountAmount { get; set; }
     public decimal TotalDiscountRate { get; set; }

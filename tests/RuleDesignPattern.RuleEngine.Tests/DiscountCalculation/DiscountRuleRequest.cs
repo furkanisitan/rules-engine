@@ -1,6 +1,6 @@
 ﻿namespace RuleDesignPattern.RuleEngine.Tests.DiscountCalculation;
 
-internal class DiscountRuleRequest : IRuleRequest
+internal struct DiscountRuleRequest : IRuleRequest
 {
     public decimal Price { get; set; }
     public bool IsCitizen { get; set; }
