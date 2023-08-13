@@ -5,7 +5,7 @@ namespace RuleDesignPattern.RuleEngine.Rules;
 
 public interface IRule<in TRequest, TResponse>
     where TRequest : IRuleRequest
-    where TResponse : IRuleResponse, new()
+    where TResponse : IRuleResponse
 {
     RuleOptionAttribute? Options =>
         Attribute.GetCustomAttribute(GetType(), typeof(RuleOptionAttribute)) as RuleOptionAttribute;

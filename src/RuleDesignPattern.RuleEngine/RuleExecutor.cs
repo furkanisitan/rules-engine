@@ -53,7 +53,7 @@ public static class RuleExecutor
     public static TResponse Execute<TRule, TRequest, TResponse>(TRequest request, TResponse response)
         where TRule : IRule<TRequest, TResponse>, new()
         where TRequest : IRuleRequest
-        where TResponse : IRuleResponse, new()
+        where TResponse : IRuleResponse
     {
         return Execute(typeof(TRule), request, response);
     }
@@ -74,7 +74,7 @@ public static class RuleExecutor
     /// <exception cref="ArgumentNullException">If one of the arguments is null.</exception>
     private static TResponse Execute<TRequest, TResponse>(Type ruleType, TRequest request, TResponse response)
         where TRequest : IRuleRequest
-        where TResponse : IRuleResponse, new()
+        where TResponse : IRuleResponse
     {
         ArgumentNullException.ThrowIfNull(ruleType);
         ArgumentNullException.ThrowIfNull(request);
