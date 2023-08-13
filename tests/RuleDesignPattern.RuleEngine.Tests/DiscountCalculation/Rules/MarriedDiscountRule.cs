@@ -1,4 +1,7 @@
-﻿namespace RuleDesignPattern.RuleEngine.Tests.DiscountCalculation.Rules;
+﻿using RuleDesignPattern.RuleEngine.Attributes;
+using RuleDesignPattern.RuleEngine.Enums;
+
+namespace RuleDesignPattern.RuleEngine.Tests.DiscountCalculation.Rules;
 
 /// <summary>
 ///     Applies a 25% compound discount to married citizens.

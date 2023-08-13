@@ -1,4 +1,4 @@
-﻿namespace RuleDesignPattern.RuleEngine;
+﻿namespace RuleDesignPattern.RuleEngine.Enums;
 
 public enum RuleType
 {

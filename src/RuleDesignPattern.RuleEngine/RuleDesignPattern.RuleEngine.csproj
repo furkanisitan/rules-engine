@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RuleDesignPattern.Core\RuleDesignPattern.Core.csproj" />
+  </ItemGroup>
+
 </Project>

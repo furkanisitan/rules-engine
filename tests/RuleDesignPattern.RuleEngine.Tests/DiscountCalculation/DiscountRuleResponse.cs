@@ -1,4 +1,6 @@
-﻿namespace RuleDesignPattern.RuleEngine.Tests.DiscountCalculation;
+﻿using RuleDesignPattern.RuleEngine.Models;
+
+namespace RuleDesignPattern.RuleEngine.Tests.DiscountCalculation;
 
 internal struct DiscountRuleResponse : IRuleResponse
 {

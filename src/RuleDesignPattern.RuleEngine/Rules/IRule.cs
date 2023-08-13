@@ -1,4 +1,7 @@
-﻿namespace RuleDesignPattern.RuleEngine.Rules;
+﻿using RuleDesignPattern.RuleEngine.Attributes;
+using RuleDesignPattern.RuleEngine.Models;
+
+namespace RuleDesignPattern.RuleEngine.Rules;
 
 public interface IRule<in TRequest, TResponse>
     where TRequest : IRuleRequest
