@@ -11,7 +11,7 @@ internal struct StudentDiscountRule : IDiscountRule
 {
     private const decimal DiscountRate = 0.2M;
 
-    public bool CanApply(DiscountRuleRequest request) =>
+    public bool CanApply(DiscountRuleRequest request, DiscountRuleResponse response) =>
         request is { IsCitizen: true, IsStudent: true };
 
     public DiscountRuleResponse Apply(DiscountRuleRequest request, DiscountRuleResponse response)

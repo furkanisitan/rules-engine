@@ -11,7 +11,7 @@ internal struct MarriedDiscountRule : IDiscountRule
 {
     private const decimal DiscountRate = 0.25M;
 
-    public bool CanApply(DiscountRuleRequest request) =>
+    public bool CanApply(DiscountRuleRequest request, DiscountRuleResponse response) =>
         request is { IsCitizen: true, IsMarried: true };
 
     public DiscountRuleResponse Apply(DiscountRuleRequest request, DiscountRuleResponse response)

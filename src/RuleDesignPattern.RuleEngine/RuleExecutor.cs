@@ -21,7 +21,7 @@ public static class RuleExecutor
         foreach (var ruleInfo in GetRuleInfos(typeof(TRule), assemblyList.ToArray()))
         {
             if (Activator.CreateInstance(ruleInfo.RuleType) is not IRule<TRequest, TResponse> rule) continue;
-            if (!rule.CanApply(request)) continue;
+            if (!rule.CanApply(request, response)) continue;
 
             response = rule.Apply(request, response);
             if (ruleInfo.RuleOption is { RuleType: RuleType.StartBreak }) break;

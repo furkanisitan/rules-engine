@@ -10,7 +10,7 @@ public interface IRule<in TRequest, TResponse>
     RuleOptionAttribute? Options =>
         Attribute.GetCustomAttribute(GetType(), typeof(RuleOptionAttribute)) as RuleOptionAttribute;
 
-    bool CanApply(TRequest request);
+    bool CanApply(TRequest request, TResponse response);
 
     TResponse Apply(TRequest request, TResponse response);
 }
