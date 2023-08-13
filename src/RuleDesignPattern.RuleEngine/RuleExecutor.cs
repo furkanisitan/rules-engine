@@ -46,16 +46,17 @@ public static class RuleExecutor
             .ToList();
     }
 
+
     /// <summary>
-    ///     Executes the rule of type <typeparamref name="TRule" /> and other rules that linked on this type.
+    ///     Executes the <paramref name="rule" /> and other rules that linked on this rule.
     /// </summary>
     /// <inheritdoc cref="Execute{TRequest,TResponse}" />
-    public static TResponse Execute<TRule, TRequest, TResponse>(TRequest request, TResponse response)
+    public static TResponse Execute<TRule, TRequest, TResponse>(TRule rule, TRequest request, TResponse response)
         where TRule : IRule<TRequest, TResponse>, new()
         where TRequest : IRuleRequest
         where TResponse : IRuleResponse
     {
-        return Execute(typeof(TRule), request, response);
+        return Execute(rule.GetType(), request, response);
     }
 
     /// <summary>
