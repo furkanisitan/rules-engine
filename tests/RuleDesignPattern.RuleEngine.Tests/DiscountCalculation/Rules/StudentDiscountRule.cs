@@ -7,7 +7,7 @@ namespace RuleDesignPattern.RuleEngine.Tests.DiscountCalculation.Rules;
 ///     Applies a 20% compound discount to citizens who are students.
 /// </summary>
 [RuleOption(RuleType.End)]
-internal struct StudentDiscountRule : IDiscountRule
+internal struct StudentDiscountRule : IDiscountUnLinkedRule
 {
     private const decimal DiscountRate = 0.2M;
 

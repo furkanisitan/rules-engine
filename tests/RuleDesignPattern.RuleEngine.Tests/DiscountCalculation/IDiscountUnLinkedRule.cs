@@ -2,6 +2,6 @@
 
 namespace RuleDesignPattern.RuleEngine.Tests.DiscountCalculation;
 
-internal interface IDiscountRule : IRule<DiscountRuleRequest, DiscountRuleResponse>
+internal interface IDiscountUnLinkedRule : IUnLinkedRule<DiscountRuleRequest, DiscountRuleResponse>
 {
 }

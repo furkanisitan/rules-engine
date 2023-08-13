@@ -7,7 +7,7 @@ namespace RuleDesignPattern.RuleEngine.Tests.DiscountCalculation.Rules;
 ///     Applies a 25% compound discount to married citizens.
 /// </summary>
 [RuleOption(RuleType.Start)]
-internal struct MarriedDiscountRule : IDiscountRule
+internal struct MarriedDiscountRule : IDiscountUnLinkedRule
 {
     private const decimal DiscountRate = 0.25M;
 

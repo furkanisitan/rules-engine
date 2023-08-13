@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using RuleDesignPattern.RuleEngine.Attributes;
 using RuleDesignPattern.RuleEngine.Enums;
 using RuleDesignPattern.RuleEngine.Models;
 using RuleDesignPattern.RuleEngine.Rules;
@@ -8,59 +7,64 @@ namespace RuleDesignPattern.RuleEngine;
 
 public static class RuleExecutor
 {
-    public static TResponse Execute<TRule, TRequest, TResponse>(TRequest request, params Assembly[] assemblies)
-        where TRule : IRule<TRequest, TResponse>
+    /// <summary>
+    ///     Executes rules that implement the <typeparamref name="TRule" />
+    ///     and any other rules that linked to those rules.
+    ///     Searches for rules in the <see cref="Assembly" /> of the method that invoked the currently executing method.
+    /// </summary>
+    /// <inheritdoc cref="ExecuteUnLinked{TRule,TRequest,TResponse}(TRequest,  Assembly[])" />
+    public static TResponse ExecuteUnLinked<TRule, TRequest, TResponse>(TRequest request)
+        where TRule : IUnLinkedRule<TRequest, TResponse>
+        where TRequest : IRuleRequest
+        where TResponse : IRuleResponse, new()
+    {
+        return ExecuteUnLinked<TRule, TRequest, TResponse>(request, Assembly.GetCallingAssembly());
+    }
+
+    /// <summary>
+    ///     Executes rules that implement the <typeparamref name="TRule" />
+    ///     and any other rules that linked to those rules.
+    ///     Searches for rules in each <see cref="Assembly" /> of the <paramref name="assemblies" /> array.
+    /// </summary>
+    /// <typeparam name="TRule"></typeparam>
+    /// <typeparam name="TRequest"></typeparam>
+    /// <typeparam name="TResponse"></typeparam>
+    /// <param name="request">The input parameter of the rule.</param>
+    /// <param name="assemblies">The assemblies to scan.</param>
+    /// <returns>The <typeparamref name="TResponse" /> object.</returns>
+    /// <exception cref="ArgumentNullException">If the <paramref name="request" /> is null.</exception>
+    public static TResponse ExecuteUnLinked<TRule, TRequest, TResponse>(TRequest request, params Assembly[] assemblies)
+        where TRule : IUnLinkedRule<TRequest, TResponse>
         where TRequest : IRuleRequest
         where TResponse : IRuleResponse, new()
     {
         var response = new TResponse();
+        var ruleInfos = RuleHelper.GetConcreteRuleInfos(typeof(TRule), assemblies)
+            .OrderByDescending(x => x.RuleOption?.RuleType ?? RuleType.None);
 
-        var assemblyList = assemblies.ToList();
-        assemblyList.Add(Assembly.GetCallingAssembly());
-
-        foreach (var ruleInfo in GetRuleInfos(typeof(TRule), assemblyList.ToArray()))
+        foreach (var ruleInfo in ruleInfos)
         {
-            if (Activator.CreateInstance(ruleInfo.RuleType) is not IRule<TRequest, TResponse> rule) continue;
-            if (!rule.CanApply(request, response)) continue;
-
-            response = rule.Apply(request, response);
+            response = Execute(ruleInfo.RuleType, request, response);
             if (ruleInfo.RuleOption is { RuleType: RuleType.StartBreak }) break;
         }
 
         return response;
     }
 
-    public static IEnumerable<RuleInfo> GetRuleInfos(Type ruleType, params Assembly[] assemblies)
-    {
-        return assemblies
-            .Where(a => !a.IsDynamic)
-            .Distinct()
-            .SelectMany(a => a.DefinedTypes)
-            .Where(t => t is { IsAbstract: false } && t.IsAssignableTo(ruleType))
-            .Select(t => new RuleInfo
-            {
-                RuleType = t,
-                RuleOption = Attribute.GetCustomAttribute(t, typeof(RuleOptionAttribute)) as RuleOptionAttribute
-            })
-            .OrderByDescending(r => r.RuleOption?.RuleType ?? RuleType.None)
-            .ToList();
-    }
-
-
     /// <summary>
-    ///     Executes the <paramref name="rule" /> and other rules that linked on this rule.
+    ///     Executes the <typeparamref name="TRule" /> and other rules that linked on this rule.
     /// </summary>
-    /// <inheritdoc cref="Execute{TRequest,TResponse}" />
-    public static TResponse Execute<TRule, TRequest, TResponse>(TRule rule, TRequest request, TResponse response)
+    /// <inheritdoc cref="Execute{TRequest,TResponse}(Type,TRequest,TResponse)" />
+    public static TResponse Execute<TRule, TRequest, TResponse>(TRequest request, TResponse response)
         where TRule : IRule<TRequest, TResponse>, new()
         where TRequest : IRuleRequest
         where TResponse : IRuleResponse
     {
-        return Execute(rule.GetType(), request, response);
+        return Execute(typeof(TRule), request, response);
     }
 
     /// <summary>
-    ///     Executes the rule of type <paramref name="ruleType" /> and other rules that linked on this type.
+    ///     Executes the rule of type <paramref name="ruleType" /> and other rules that linked on this rule.
     /// </summary>
     /// <remarks>
     ///     Rules are executed recursively.

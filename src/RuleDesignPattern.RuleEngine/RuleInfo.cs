@@ -2,7 +2,7 @@
 
 namespace RuleDesignPattern.RuleEngine;
 
-public class RuleInfo
+internal class RuleInfo
 {
     public Type RuleType { get; set; } = default!;
     public RuleOptionAttribute? RuleOption { get; set; }
