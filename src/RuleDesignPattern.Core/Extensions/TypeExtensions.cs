@@ -13,7 +13,7 @@ public static class TypeExtensions
     /// </summary>
     /// <inheritdoc cref="GetConcretes(Type, Assembly[])" />
     public static Type[] GetConcretes(this Type type) =>
-        type.GetConcretes(Assembly.GetCallingAssembly());
+        GetConcretes(type, Assembly.GetCallingAssembly());
 
     /// <summary>
     ///     Searches concrete types that implement the current <see cref="Type" />
