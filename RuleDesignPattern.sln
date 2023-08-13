@@ -5,11 +5,13 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C820D6B3-69F7-4DBF-8409-41FB55B3EB5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuleDesignPattern.RuleEngine", "src\RuleDesignPattern.RuleEngine\RuleDesignPattern.RuleEngine.csproj", "{B3990EFD-EE9C-4192-A6D8-DCDBD33F48DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuleDesignPattern.RuleEngine", "src\RuleDesignPattern.RuleEngine\RuleDesignPattern.RuleEngine.csproj", "{B3990EFD-EE9C-4192-A6D8-DCDBD33F48DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{003FF82F-23D8-4B69-AA6D-B9973C08B3BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuleDesignPattern.RuleEngine.Tests", "tests\RuleDesignPattern.RuleEngine.Tests\RuleDesignPattern.RuleEngine.Tests.csproj", "{164A024F-5520-4F62-A595-76110967257C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuleDesignPattern.RuleEngine.Tests", "tests\RuleDesignPattern.RuleEngine.Tests\RuleDesignPattern.RuleEngine.Tests.csproj", "{164A024F-5520-4F62-A595-76110967257C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuleDesignPattern.Core", "src\RuleDesignPattern.Core\RuleDesignPattern.Core.csproj", "{E3F41F8C-B6F1-4DC5-8055-1C04ADABCC51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{164A024F-5520-4F62-A595-76110967257C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{164A024F-5520-4F62-A595-76110967257C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{164A024F-5520-4F62-A595-76110967257C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3F41F8C-B6F1-4DC5-8055-1C04ADABCC51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3F41F8C-B6F1-4DC5-8055-1C04ADABCC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3F41F8C-B6F1-4DC5-8055-1C04ADABCC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3F41F8C-B6F1-4DC5-8055-1C04ADABCC51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B3990EFD-EE9C-4192-A6D8-DCDBD33F48DE} = {C820D6B3-69F7-4DBF-8409-41FB55B3EB5E}
 		{164A024F-5520-4F62-A595-76110967257C} = {003FF82F-23D8-4B69-AA6D-B9973C08B3BE}
+		{E3F41F8C-B6F1-4DC5-8055-1C04ADABCC51} = {C820D6B3-69F7-4DBF-8409-41FB55B3EB5E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C7700C3-C6E2-4CFD-A0C3-744EF08980DD}
