@@ -53,7 +53,7 @@ internal class RuleExecutor_ExecuteShould_DiscountCalculation
     [TestCaseSource(nameof(TestData))]
     public void Execute_InputIsFromTestData_ResponseIsEqualToResult(DiscountRuleRequest request, DiscountRuleResponse response)
     {
-        var result = RuleExecutor.ExecuteUnLinked<IDiscountUnLinkedRule, DiscountRuleRequest, DiscountRuleResponse>(request);
+        var result = RuleEngine.RuleExecutor.ExecuteUnLinked<IDiscountUnLinkedRule, DiscountRuleRequest, DiscountRuleResponse>(request);
 
         Assert.AreEqual(response.TotalDiscountAmount, result.TotalDiscountAmount);
         Assert.AreEqual(response.TotalDiscountRate, result.TotalDiscountRate);
