@@ -7,11 +7,9 @@ namespace RuleDesignPattern.RuleEngine;
 
 public static class RuleExecutor
 {
-    /// <summary>
-    ///     Executes rules that implement the <typeparamref name="TRule" />
-    ///     and any other rules that linked to those rules.
+    /// <remarks>
     ///     Searches for rules in the <see cref="Assembly" /> of the method that invoked the currently executing method.
-    /// </summary>
+    /// </remarks>
     /// <inheritdoc cref="ExecuteUnLinked{TRule,TRequest,TResponse}(TRequest,  Assembly[])" />
     public static TResponse ExecuteUnLinked<TRule, TRequest, TResponse>(TRequest request)
         where TRule : IUnLinkedRule<TRequest, TResponse>
@@ -22,77 +20,67 @@ public static class RuleExecutor
     }
 
     /// <summary>
-    ///     Executes rules that implement the <typeparamref name="TRule" />
-    ///     and any other rules that linked to those rules.
-    ///     Searches for rules in each <see cref="Assembly" /> of the <paramref name="assemblies" /> array.
+    ///     Executes rules that implement the <typeparamref name="TRule" /> and any other rules that linked to these rules.
     /// </summary>
-    /// <typeparam name="TRule"></typeparam>
-    /// <typeparam name="TRequest"></typeparam>
-    /// <typeparam name="TResponse"></typeparam>
+    /// <remarks>
+    ///     Searches for rules in each <see cref="Assembly" /> of the <paramref name="assemblies" /> array.
+    /// </remarks>
     /// <param name="request">The input parameter of the rule.</param>
     /// <param name="assemblies">The assemblies to scan.</param>
-    /// <returns>The <typeparamref name="TResponse" /> object.</returns>
+    /// <returns>A <typeparamref name="TResponse" /> object.</returns>
     /// <exception cref="ArgumentNullException">If the <paramref name="request" /> is null.</exception>
     public static TResponse ExecuteUnLinked<TRule, TRequest, TResponse>(TRequest request, params Assembly[] assemblies)
         where TRule : IUnLinkedRule<TRequest, TResponse>
         where TRequest : IRuleRequest
         where TResponse : IRuleResponse, new()
     {
-        var response = new TResponse();
-        var ruleInfos = RuleHelper.GetConcreteRuleInfos(typeof(TRule), assemblies)
-            .OrderByDescending(x => x.RuleOption?.RuleType ?? RuleType.None);
-
-        foreach (var ruleInfo in ruleInfos)
-        {
-            response = Execute(ruleInfo.RuleType, request, response);
-            if (ruleInfo.RuleOption is { RuleType: RuleType.StartBreak }) break;
-        }
-
-        return response;
+        return ExecuteByRuleInfos(request, new TResponse(), RuleHelper.GetConcreteRuleInfos(typeof(TRule), assemblies));
     }
 
     /// <summary>
-    ///     Executes the <typeparamref name="TRule" /> and other rules that linked on this rule.
+    ///     Executes the rule of type <typeparamref name="TRule" /> and other rules that linked on this rule.
     /// </summary>
-    /// <inheritdoc cref="Execute{TRequest,TResponse}(Type,TRequest,TResponse)" />
+    /// <inheritdoc cref="ExecuteByRuleInfos{TRequest,TResponse}" />
     public static TResponse Execute<TRule, TRequest, TResponse>(TRequest request, TResponse response)
         where TRule : IRule<TRequest, TResponse>, new()
         where TRequest : IRuleRequest
         where TResponse : IRuleResponse
     {
-        return Execute(typeof(TRule), request, response);
+        return ExecuteByRuleInfos(request, response, RuleHelper.GetRuleInfos(typeof(TRule)));
     }
 
     /// <summary>
-    ///     Executes the rule of type <paramref name="ruleType" /> and other rules that linked on this rule.
+    ///     Executes rules of type <see cref="RuleInfo.RuleType" /> in the <paramref name="ruleInfos" />
+    ///     and other rules that linked to these rules.
     /// </summary>
-    /// <remarks>
-    ///     Rules are executed recursively.
-    ///     If the linked rule also has a linked rule, that rule will also be executed.
-    /// </remarks>
-    /// <typeparam name="TRequest"></typeparam>
-    /// <typeparam name="TResponse"></typeparam>
-    /// <param name="ruleType">The type of rule to execute.</param>
     /// <param name="request">The input parameter of the rule.</param>
     /// <param name="response">The result parameter of the rule.</param>
+    /// <param name="ruleInfos"><see cref="RuleInfo" /> objects containing rule types and other information.</param>
     /// <returns>The <paramref name="response" /> object.</returns>
-    /// <exception cref="ArgumentNullException">If one of the arguments is null.</exception>
-    private static TResponse Execute<TRequest, TResponse>(Type ruleType, TRequest request, TResponse response)
+    /// <exception cref="ArgumentNullException">If <paramref name="request" /> or <paramref name="response" /> is null.</exception>
+    private static TResponse ExecuteByRuleInfos<TRequest, TResponse>(TRequest request, TResponse response,
+        params RuleInfo[] ruleInfos)
         where TRequest : IRuleRequest
         where TResponse : IRuleResponse
     {
-        ArgumentNullException.ThrowIfNull(ruleType);
         ArgumentNullException.ThrowIfNull(request);
         ArgumentNullException.ThrowIfNull(response);
 
-        if (Activator.CreateInstance(ruleType) is not IRule<TRequest, TResponse> rule) return response;
+        foreach (var ruleInfo in ruleInfos.OrderByDescending(x => x.RuleOption?.RuleType ?? RuleType.None))
+        {
+            if (Activator.CreateInstance(ruleInfo.RuleType) is not IRule<TRequest, TResponse> rule) continue;
+            if (!rule.CanApply(request, response)) continue;
 
-        if (!rule.CanApply(request, response)) return response;
-        response = rule.Apply(request, response);
+            response = rule.Apply(request, response);
 
-        return rule.Options is null
-            ? response
-            : rule.Options.LinkedRules.Aggregate(response,
-                (current, linkedRule) => Execute(linkedRule, request, current));
+            if (ruleInfo.RuleOption is null) continue;
+
+            response = ExecuteByRuleInfos(request, response,
+                RuleHelper.GetRuleInfos(ruleInfo.RuleOption.LinkedRules).ToArray());
+
+            if (ruleInfo.RuleOption is { RuleType: RuleType.StartBreak }) break;
+        }
+
+        return response;
     }
 }
