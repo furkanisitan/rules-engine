@@ -11,7 +11,7 @@ public class RuleOptionAttribute : Attribute
     public RuleOptionAttribute(RuleType ruleType, params Type[] linkedRules)
     {
         RuleType = ruleType;
-        LinkedRules = linkedRules;
+        LinkedRules = linkedRules.Distinct().ToArray();
     }
 
     public RuleOptionAttribute(params Type[] linkedRules) : this(RuleType.None, linkedRules)
