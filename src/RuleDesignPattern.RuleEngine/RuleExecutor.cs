@@ -66,7 +66,7 @@ public static class RuleExecutor
         ArgumentNullException.ThrowIfNull(request);
         ArgumentNullException.ThrowIfNull(response);
 
-        foreach (var ruleInfo in ruleInfos.OrderByDescending(x => x.RuleOption?.RuleType ?? RuleType.None))
+        foreach (var ruleInfo in ruleInfos.OrderBy(x => x.RuleOption?.RuleType ?? RuleType.None))
         {
             if (Activator.CreateInstance(ruleInfo.RuleType) is not IRule<TRequest, TResponse> rule) continue;
             if (!rule.CanApply(request, response)) continue;
