@@ -109,6 +109,7 @@ file class RuleRequest : IRuleRequest
 file class RuleResponse : IRuleResponse
 {
     public List<string> ExecutedRules { get; } = Enumerable.Empty<string>().ToList();
+    public bool StopRuleExecution { get; set; }
 }
 
 file interface ITestRule : IRule<RuleRequest, RuleResponse>
