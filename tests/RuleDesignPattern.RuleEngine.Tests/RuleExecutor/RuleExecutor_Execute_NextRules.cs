@@ -3,7 +3,7 @@
 namespace RuleDesignPattern.RuleEngine.Tests.RuleExecutor;
 
 [TestFixture]
-internal class RuleExecutor_Execute
+internal class RuleExecutor_Execute_NextRules
 {
     [Test]
     public void Execute_WithoutResponseObject_OrderOfExecutedRuleListsIsSame()
