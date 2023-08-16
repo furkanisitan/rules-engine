@@ -51,7 +51,8 @@ public static class RuleExecutor
             })
             .Where(x => x.RunOrder is not null)
             .OrderBy(x => x.RunOrder)
-            .Select(x => x.RuleType);
+            .Select(x => x.RuleType)
+            .ToArray();
 
         return ExecuteByRuleTypes(request, response, concreteRuleTypes);
     }
@@ -70,25 +71,28 @@ public static class RuleExecutor
         where TResponse : IRuleResponse
     {
         ArgumentNullException.ThrowIfNull(rule);
-        ArgumentNullException.ThrowIfNull(request);
-        ArgumentNullException.ThrowIfNull(response);
 
-        if (!rule.CanApply(request, response)) return response;
-        response = rule.Apply(request, response);
-
-        return response.StopRuleExecution ? response : ExecuteByRuleTypes(request, response, rule.NextRules);
+        return ExecuteByRuleTypes(request, response, rule.GetType());
     }
 
     private static TResponse ExecuteByRuleTypes<TRequest, TResponse>(
-        TRequest request, TResponse response, IEnumerable<Type> ruleTypes
+        TRequest request, TResponse response, params Type[] ruleTypes
     )
         where TRequest : IRuleRequest
         where TResponse : IRuleResponse
     {
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(response);
+
         foreach (var ruleType in ruleTypes)
         {
             if (Activator.CreateInstance(ruleType) is not IRule<TRequest, TResponse> rule) continue;
-            response = Execute(rule, request, response);
+            if (!rule.CanApply(request, response)) return response;
+
+            response = rule.Apply(request, response);
+            if (response.StopRuleExecution) break;
+
+            response = ExecuteByRuleTypes<TRequest, TResponse>(request, response, rule.NextRules);
         }
 
         return response;
