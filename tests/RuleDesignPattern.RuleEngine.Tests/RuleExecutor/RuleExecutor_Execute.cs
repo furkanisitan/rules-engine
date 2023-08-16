@@ -1,6 +1,4 @@
-﻿using RuleDesignPattern.RuleEngine.Attributes;
-
-namespace RuleDesignPattern.RuleEngine.Tests.RuleExecutor;
+﻿namespace RuleDesignPattern.RuleEngine.Tests.RuleExecutor;
 
 [TestFixture]
 internal class RuleExecutor_Execute
@@ -65,17 +63,14 @@ internal class RuleExecutor_Execute
     }
 }
 
-[NextRules(typeof(Rule2), typeof(Rule3))]
 file class Rule1 : BaseRule
 {
 }
 
-[NextRules(typeof(Rule4))]
 file class Rule2 : BaseRule
 {
 }
 
-[NextRules(typeof(Rule5))]
 file class Rule3 : BaseRule
 {
 }

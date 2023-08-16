@@ -1,15 +1,13 @@
-﻿using RuleDesignPattern.RuleEngine.Attributes;
-
-namespace RuleDesignPattern.RuleEngine;
+﻿namespace RuleDesignPattern.RuleEngine;
 
 public interface IRule<in TRequest, TResponse>
     where TRequest : IRuleRequest
     where TResponse : IRuleResponse
 {
-    Type[] NextRules =>
-        Attribute.GetCustomAttribute(GetType(), typeof(NextRulesAttribute)) is NextRulesAttribute attribute
-            ? attribute.Rules
-            : Enumerable.Empty<Type>().ToArray();
+    IEnumerable<Type> NextRules =>
+        Attribute.GetCustomAttribute(GetType(), typeof(RuleAttribute)) is RuleAttribute attribute
+            ? attribute.NextRules
+            : Enumerable.Empty<Type>();
 
     bool CanApply(TRequest request, TResponse response);
 

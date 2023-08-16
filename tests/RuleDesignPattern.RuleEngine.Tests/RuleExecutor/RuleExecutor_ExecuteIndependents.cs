@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using RuleDesignPattern.RuleEngine.Attributes;
 
 namespace RuleDesignPattern.RuleEngine.Tests.RuleExecutor;
 
@@ -19,11 +18,8 @@ internal class RuleExecutor_ExecuteIndependents_IndependentRule
         };
         var request = new RuleRequest();
         var response = new RuleResponse();
-        var assembly = Assembly.GetExecutingAssembly();
 
-        var result = RuleEngine.RuleExecutor.ExecuteIndependents<ITestRule, RuleRequest, RuleResponse>(
-            request, response, assembly
-        );
+        var result = RuleEngine.RuleExecutor.ExecuteAll<ITestRule, RuleRequest, RuleResponse>(request, response);
 
         CollectionAssert.AreEquivalent(executedRules, result.ExecutedRules);
     }
@@ -43,9 +39,7 @@ internal class RuleExecutor_ExecuteIndependents_IndependentRule
         var response = new RuleResponse();
         var assembly = Assembly.GetExecutingAssembly();
 
-        var result = RuleEngine.RuleExecutor.ExecuteIndependents<ITestRule, RuleRequest, RuleResponse>(
-            request, response, assembly
-        );
+        var result = RuleEngine.RuleExecutor.ExecuteAll<ITestRule, RuleRequest, RuleResponse>(request, response);
 
         CollectionAssert.AreEqual(executedRules, result.ExecutedRules);
     }
@@ -57,35 +51,28 @@ internal class RuleExecutor_ExecuteIndependents_IndependentRule
         var response = new RuleResponse();
         var assembly = Assembly.GetExecutingAssembly();
 
-        var result = RuleEngine.RuleExecutor.ExecuteIndependents<IDifferentTestRule, RuleRequest, RuleResponse>(
-            request, response, assembly
-        );
+        var result = RuleEngine.RuleExecutor.ExecuteAll<ITestRule, RuleRequest, RuleResponse>(request, response);
 
         CollectionAssert.IsEmpty(result.ExecutedRules);
     }
 }
 
-[IndependentRule]
 file class Rule1 : BaseRule
 {
 }
 
-[IndependentRule(RunOrder = int.MaxValue)]
 file class Rule2 : BaseRule
 {
 }
 
-[IndependentRule(RunOrder = -10)]
 file class Rule3 : BaseRule
 {
 }
 
-[IndependentRule(RunOrder = 55)]
 file class Rule4 : BaseRule
 {
 }
 
-[IndependentRule(RunOrder = int.MinValue)]
 file class Rule5 : BaseRule
 {
 }

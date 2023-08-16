@@ -1,60 +1,27 @@
-﻿using System.Reflection;
-using RuleDesignPattern.Core.Extensions;
-using RuleDesignPattern.RuleEngine.Attributes;
+﻿using RuleDesignPattern.RuleEngine.Utils;
 
 namespace RuleDesignPattern.RuleEngine;
 
 public static class RuleExecutor
 {
-    public static TResponse ExecuteIndependents<TRule, TRequest, TResponse>(TRequest request)
+    public static TResponse ExecuteAll<TRule, TRequest, TResponse>(TRequest request)
         where TRule : IRule<TRequest, TResponse>
         where TRequest : IRuleRequest
         where TResponse : IRuleResponse, new()
     {
-        return ExecuteIndependents<TRule, TRequest, TResponse>(request, new TResponse(), Assembly.GetCallingAssembly());
+        return ExecuteAll<TRule, TRequest, TResponse>(request, new TResponse());
     }
 
-    public static TResponse ExecuteIndependents<TRule, TRequest, TResponse>(
-        TRequest request, params Assembly[] assemblies
-    )
-        where TRule : IRule<TRequest, TResponse>
-        where TRequest : IRuleRequest
-        where TResponse : IRuleResponse, new()
-    {
-        return ExecuteIndependents<TRule, TRequest, TResponse>(request, new TResponse(), assemblies);
-    }
-
-    public static TResponse ExecuteIndependents<TRule, TRequest, TResponse>(TRequest request, TResponse response)
+    public static TResponse ExecuteAll<TRule, TRequest, TResponse>(TRequest request, TResponse response)
         where TRule : IRule<TRequest, TResponse>
         where TRequest : IRuleRequest
         where TResponse : IRuleResponse
     {
-        return ExecuteIndependents<TRule, TRequest, TResponse>(request, response, Assembly.GetCallingAssembly());
-    }
+        var independentRules = RuleHelper.GetConcreteRules(typeof(TRule), RuleType.Independent);
+        var finishRules = RuleHelper.GetConcreteRules(typeof(TRule), RuleType.Finish);
+        var rules = independentRules.Concat(finishRules);
 
-    public static TResponse ExecuteIndependents<TRule, TRequest, TResponse>(
-        TRequest request, TResponse response, params Assembly[] assemblies
-    )
-        where TRule : IRule<TRequest, TResponse>
-        where TRequest : IRuleRequest
-        where TResponse : IRuleResponse
-    {
-        var ruleType = typeof(TRule);
-        var attrType = typeof(IndependentRuleAttribute);
-
-        var concreteRuleTypes = ruleType
-            .GetConcretes(assemblies)
-            .Select(x => new
-            {
-                RuleType = x,
-                (Attribute.GetCustomAttribute(x, attrType) as IndependentRuleAttribute)?.RunOrder
-            })
-            .Where(x => x.RunOrder is not null)
-            .OrderBy(x => x.RunOrder)
-            .Select(x => x.RuleType)
-            .ToArray();
-
-        return ExecuteByRuleTypes(request, response, concreteRuleTypes);
+        return ExecuteTypes(request, response, rules);
     }
 
     public static TResponse Execute<TRule, TRequest, TResponse>(TRule rule, TRequest request)
@@ -72,11 +39,14 @@ public static class RuleExecutor
     {
         ArgumentNullException.ThrowIfNull(rule);
 
-        return ExecuteByRuleTypes(request, response, rule.GetType());
+        var finishRules = RuleHelper.GetConcreteRules(typeof(TRule), RuleType.Finish);
+        var rules = new List<Type> { rule.GetType() }.Concat(finishRules);
+
+        return ExecuteTypes(request, response, rules);
     }
 
-    private static TResponse ExecuteByRuleTypes<TRequest, TResponse>(
-        TRequest request, TResponse response, params Type[] ruleTypes
+    private static TResponse ExecuteTypes<TRequest, TResponse>(
+        TRequest request, TResponse response, IEnumerable<Type> types
     )
         where TRequest : IRuleRequest
         where TResponse : IRuleResponse
@@ -84,15 +54,15 @@ public static class RuleExecutor
         ArgumentNullException.ThrowIfNull(request);
         ArgumentNullException.ThrowIfNull(response);
 
-        foreach (var ruleType in ruleTypes)
+        foreach (var ruleType in types)
         {
             if (Activator.CreateInstance(ruleType) is not IRule<TRequest, TResponse> rule) continue;
             if (!rule.CanApply(request, response)) return response;
 
             response = rule.Apply(request, response);
-            if (response.StopRuleExecution) break;
+            if (response.StopRuleExecution) return response;
 
-            response = ExecuteByRuleTypes<TRequest, TResponse>(request, response, rule.NextRules);
+            response = ExecuteTypes(request, response, rule.NextRules);
         }
 
         return response;
