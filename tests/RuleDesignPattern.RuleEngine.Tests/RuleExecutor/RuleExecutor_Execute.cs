@@ -4,85 +4,90 @@
 internal class RuleExecutor_Execute
 {
     [Test]
-    public void Execute_WithoutResponseObject_OrderOfExecutedRuleListsIsSame()
+    public void Execute_TRuleIsAbstractType_OrderOfExecutedRuleListsIsSame()
     {
         var executedRules = new List<string>
         {
-            typeof(Rule1).Name,
-            typeof(Rule2).Name,
-            typeof(Rule4).Name,
-            typeof(Rule3).Name,
-            typeof(Rule5).Name
+            typeof(RuleNone1).Name,
+            typeof(RuleNone2).Name,
+            typeof(RuleNone4).Name,
+            typeof(RuleNone3).Name,
+            typeof(RuleNone5).Name,
+            typeof(RuleFinish4).Name,
+            typeof(RuleFinish2).Name,
+            typeof(RuleFinish1).Name,
+            typeof(RuleFinish3).Name
         };
         var request = new RuleRequest();
-        var rule = new Rule1();
+        var response = new RuleResponse();
+        var rule = new RuleNone1();
 
-        var result = RuleEngine.RuleExecutor.Execute<ITestRule, RuleRequest, RuleResponse>(rule, request);
+        var result = RuleEngine.RuleExecutor.Execute<ITestRule, RuleRequest, RuleResponse>(rule, request, response);
 
         CollectionAssert.AreEqual(executedRules, result.ExecutedRules);
     }
 
     [Test]
-    public void Execute_WithResponseObject_OrderOfExecutedRuleListsIsSame()
+    public void Execute_TRuleIsConcreteType_OrderOfExecutedRuleListsIsSame()
     {
         var executedRules = new List<string>
         {
-            typeof(Rule1).Name,
-            typeof(Rule2).Name,
-            typeof(Rule4).Name,
-            typeof(Rule3).Name,
-            typeof(Rule5).Name
+            typeof(RuleNone1).Name,
+            typeof(RuleNone2).Name,
+            typeof(RuleNone4).Name,
+            typeof(RuleNone3).Name,
+            typeof(RuleNone5).Name
         };
         var request = new RuleRequest();
         var response = new RuleResponse();
-        var rule = new Rule1();
+        var rule = new RuleNone1();
 
         var result = RuleEngine.RuleExecutor.Execute(rule, request, response);
 
         CollectionAssert.AreEqual(executedRules, result.ExecutedRules);
     }
-
-    [Test]
-    public void Execute_WithResponseObject_OrderOfExecutedRuleListsIsNotSame()
-    {
-        var executedRules = new List<string>
-        {
-            typeof(Rule1).Name,
-            typeof(Rule2).Name,
-            typeof(Rule3).Name,
-            typeof(Rule4).Name,
-            typeof(Rule5).Name
-        };
-        var request = new RuleRequest();
-        var response = new RuleResponse();
-        var rule = new Rule1();
-
-        var result = RuleEngine.RuleExecutor.Execute(rule, request, response);
-
-        CollectionAssert.AreNotEqual(executedRules, result.ExecutedRules);
-    }
 }
 
-[Rule(typeof(Rule2), typeof(Rule3))]
-file class Rule1 : BaseRule
+[Rule(typeof(RuleNone2), typeof(RuleNone3))]
+file class RuleNone1 : BaseRule
 {
 }
 
-[Rule(typeof(Rule4))]
-file class Rule2 : BaseRule
+[Rule(typeof(RuleNone4))]
+file class RuleNone2 : BaseRule
 {
 }
 
-[Rule(typeof(Rule5))]
-file class Rule3 : BaseRule
+[Rule(typeof(RuleNone5))]
+file class RuleNone3 : BaseRule
 {
 }
 
-file class Rule4 : BaseRule
+file class RuleNone4 : BaseRule
 {
 }
 
-file class Rule5 : BaseRule
+file class RuleNone5 : BaseRule
+{
+}
+
+[Rule(RuleType = RuleType.Finish, RunOrder = 3)]
+file class RuleFinish1 : BaseRule
+{
+}
+
+[Rule(RuleType = RuleType.Finish, RunOrder = 2)]
+file class RuleFinish2 : BaseRule
+{
+}
+
+[Rule(RuleType = RuleType.Finish, RunOrder = 4)]
+file class RuleFinish3 : BaseRule
+{
+}
+
+[Rule(RuleType = RuleType.Finish, RunOrder = 1)]
+file class RuleFinish4 : BaseRule
 {
 }
 

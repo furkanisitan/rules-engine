@@ -1,39 +1,22 @@
-﻿using System.Reflection;
-
-namespace RuleDesignPattern.RuleEngine.Tests.RuleExecutor;
+﻿namespace RuleDesignPattern.RuleEngine.Tests.RuleExecutor;
 
 [TestFixture]
 internal class RuleExecutor_ExecuteAll
 {
     [Test]
-    public void ExecuteIndependents_WithIndependentRuleAttribute_ExecutedRuleListsAreEquivalent()
+    public void ExecuteIndependents_TRuleIsITestRule_OrderOfExecutedRuleListsIsSame()
     {
         var executedRules = new List<string>
         {
-            typeof(Rule5).Name,
-            typeof(Rule4).Name,
-            typeof(Rule3).Name,
-            typeof(Rule2).Name,
-            typeof(Rule1).Name
-        };
-        var request = new RuleRequest();
-        var response = new RuleResponse();
-
-        var result = RuleEngine.RuleExecutor.ExecuteAll<ITestRule, RuleRequest, RuleResponse>(request, response);
-
-        CollectionAssert.AreEquivalent(executedRules, result.ExecutedRules);
-    }
-
-    [Test]
-    public void ExecuteIndependents_WithIndependentRuleAttribute_OrderOfExecutedRuleListsIsSame()
-    {
-        var executedRules = new List<string>
-        {
-            typeof(Rule5).Name,
-            typeof(Rule3).Name,
-            typeof(Rule1).Name,
-            typeof(Rule4).Name,
-            typeof(Rule2).Name
+            typeof(RuleIndependent5).Name,
+            typeof(RuleIndependent3).Name,
+            typeof(RuleIndependent1).Name,
+            typeof(RuleIndependent4).Name,
+            typeof(RuleIndependent2).Name,
+            typeof(RuleFinish4).Name,
+            typeof(RuleFinish2).Name,
+            typeof(RuleFinish1).Name,
+            typeof(RuleFinish3).Name
         };
         var request = new RuleRequest();
         var response = new RuleResponse();
@@ -49,38 +32,59 @@ internal class RuleExecutor_ExecuteAll
         var request = new RuleRequest();
         var response = new RuleResponse();
 
-        var result = RuleEngine.RuleExecutor.ExecuteAll<IDifferentTestRule, RuleRequest, RuleResponse>(request, response);
+        var result =
+            RuleEngine.RuleExecutor.ExecuteAll<IDifferentTestRule, RuleRequest, RuleResponse>(request, response);
 
         CollectionAssert.IsEmpty(result.ExecutedRules);
     }
 }
 
 [Rule(RuleType = RuleType.Independent)]
-file class Rule1 : BaseRule
+file class RuleIndependent1 : BaseRule
 {
 }
 
 [Rule(RuleType = RuleType.Independent, RunOrder = int.MaxValue)]
-file class Rule2 : BaseRule
+file class RuleIndependent2 : BaseRule
 {
 }
 
 [Rule(RuleType = RuleType.Independent, RunOrder = -55)]
-file class Rule3 : BaseRule
+file class RuleIndependent3 : BaseRule
 {
 }
 
 [Rule(RuleType = RuleType.Independent, RunOrder = 55)]
-file class Rule4 : BaseRule
+file class RuleIndependent4 : BaseRule
 {
 }
 
 [Rule(RuleType = RuleType.Independent, RunOrder = int.MinValue)]
-file class Rule5 : BaseRule
+file class RuleIndependent5 : BaseRule
 {
 }
 
-file class Rule6 : BaseRule
+[Rule(RuleType = RuleType.Finish, RunOrder = 3)]
+file class RuleFinish1 : BaseRule
+{
+}
+
+[Rule(RuleType = RuleType.Finish, RunOrder = 2)]
+file class RuleFinish2 : BaseRule
+{
+}
+
+[Rule(RuleType = RuleType.Finish, RunOrder = 4)]
+file class RuleFinish3 : BaseRule
+{
+}
+
+[Rule(RuleType = RuleType.Finish, RunOrder = 1)]
+file class RuleFinish4 : BaseRule
+{
+}
+
+file class RuleNone : BaseRule
 {
 }
 
