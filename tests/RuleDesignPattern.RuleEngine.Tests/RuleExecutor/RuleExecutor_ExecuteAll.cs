@@ -3,7 +3,7 @@
 namespace RuleDesignPattern.RuleEngine.Tests.RuleExecutor;
 
 [TestFixture]
-internal class RuleExecutor_ExecuteIndependents_IndependentRule
+internal class RuleExecutor_ExecuteAll
 {
     [Test]
     public void ExecuteIndependents_WithIndependentRuleAttribute_ExecutedRuleListsAreEquivalent()
@@ -37,7 +37,6 @@ internal class RuleExecutor_ExecuteIndependents_IndependentRule
         };
         var request = new RuleRequest();
         var response = new RuleResponse();
-        var assembly = Assembly.GetExecutingAssembly();
 
         var result = RuleEngine.RuleExecutor.ExecuteAll<ITestRule, RuleRequest, RuleResponse>(request, response);
 
@@ -49,30 +48,34 @@ internal class RuleExecutor_ExecuteIndependents_IndependentRule
     {
         var request = new RuleRequest();
         var response = new RuleResponse();
-        var assembly = Assembly.GetExecutingAssembly();
 
-        var result = RuleEngine.RuleExecutor.ExecuteAll<ITestRule, RuleRequest, RuleResponse>(request, response);
+        var result = RuleEngine.RuleExecutor.ExecuteAll<IDifferentTestRule, RuleRequest, RuleResponse>(request, response);
 
         CollectionAssert.IsEmpty(result.ExecutedRules);
     }
 }
 
+[Rule(RuleType = RuleType.Independent)]
 file class Rule1 : BaseRule
 {
 }
 
+[Rule(RuleType = RuleType.Independent, RunOrder = int.MaxValue)]
 file class Rule2 : BaseRule
 {
 }
 
+[Rule(RuleType = RuleType.Independent, RunOrder = -55)]
 file class Rule3 : BaseRule
 {
 }
 
+[Rule(RuleType = RuleType.Independent, RunOrder = 55)]
 file class Rule4 : BaseRule
 {
 }
 
+[Rule(RuleType = RuleType.Independent, RunOrder = int.MinValue)]
 file class Rule5 : BaseRule
 {
 }

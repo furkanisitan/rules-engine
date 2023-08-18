@@ -63,14 +63,17 @@ internal class RuleExecutor_Execute
     }
 }
 
+[Rule(typeof(Rule2), typeof(Rule3))]
 file class Rule1 : BaseRule
 {
 }
 
+[Rule(typeof(Rule4))]
 file class Rule2 : BaseRule
 {
 }
 
+[Rule(typeof(Rule5))]
 file class Rule3 : BaseRule
 {
 }
