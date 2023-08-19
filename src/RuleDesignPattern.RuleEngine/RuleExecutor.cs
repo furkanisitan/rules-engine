@@ -81,16 +81,17 @@ public static class RuleExecutor
     {
         ArgumentNullException.ThrowIfNull(request);
         ArgumentNullException.ThrowIfNull(response);
-
+        var a = types.ToList();
         foreach (var ruleType in types)
         {
             if (Activator.CreateInstance(ruleType) is not IRule<TRequest, TResponse> rule) continue;
-            if (!rule.CanApply(request, response)) return response;
+            if (!rule.CanApply(request, response)) continue;
 
             response = rule.Apply(request, response);
             if (response.StopRuleExecution) return response;
 
-            response = ExecuteTypes(request, response, rule.NextRules);
+            if (rule.NextRules.Any())
+                response = ExecuteTypes(request, response, rule.NextRules);
         }
 
         return response;
