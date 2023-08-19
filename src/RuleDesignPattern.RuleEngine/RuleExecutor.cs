@@ -81,7 +81,7 @@ public static class RuleExecutor
     {
         ArgumentNullException.ThrowIfNull(request);
         ArgumentNullException.ThrowIfNull(response);
-        var a = types.ToList();
+
         foreach (var ruleType in types)
         {
             if (Activator.CreateInstance(ruleType) is not IRule<TRequest, TResponse> rule) continue;
