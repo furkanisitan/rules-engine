@@ -47,20 +47,10 @@ public static class DiscountCalculator
         return discountAmount;
     }
 
-    public static decimal CalculateDiscountWithRules(DiscountCalculationRequest request)
+    public static decimal CalculateDiscountWithRules(DiscountRuleRequest request)
     {
-        var discountRuleRequest = new DiscountRuleRequest
-        {
-            Amount = request.Amount,
-            IsCitizen = request.IsCitizen,
-            IsStudent = request.IsStudent,
-            IsMarried = request.IsMarried,
-            IsVictim = request.IsVictim,
-            ChildCount = request.ChildCount
-        };
-
         var response =
-            RuleExecutor.ExecuteAll<IDiscountRule, DiscountRuleRequest, DiscountRuleResponse>(discountRuleRequest);
+            RuleExecutor.ExecuteAll<IDiscountRule, DiscountRuleRequest, DiscountRuleResponse>(request);
 
         return response.DiscountAmount;
     }

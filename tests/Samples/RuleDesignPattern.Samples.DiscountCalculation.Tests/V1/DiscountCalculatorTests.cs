@@ -1,4 +1,5 @@
 ﻿using RuleDesignPattern.Samples.DiscountCalculation.V1;
+using RuleDesignPattern.Samples.DiscountCalculation.V1.RuleDesign;
 
 namespace RuleDesignPattern.Samples.DiscountCalculation.Tests.V1;
 
@@ -20,7 +21,16 @@ internal class DiscountCalculatorTests
         DiscountCalculationRequest request, decimal expectedDiscountAmount
     )
     {
-        var discountAmount = DiscountCalculator.CalculateDiscountWithRules(request);
+        var discountRuleRequest = new DiscountRuleRequest
+        {
+            Amount = request.Amount,
+            IsCitizen = request.IsCitizen,
+            IsStudent = request.IsStudent,
+            IsMarried = request.IsMarried,
+            IsVictim = request.IsVictim
+        };
+
+        var discountAmount = DiscountCalculator.CalculateDiscountWithRules(discountRuleRequest);
 
         Assert.AreEqual(expectedDiscountAmount, discountAmount);
     }

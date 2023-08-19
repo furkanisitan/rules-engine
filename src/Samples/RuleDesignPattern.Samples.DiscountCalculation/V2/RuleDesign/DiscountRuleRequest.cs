@@ -2,7 +2,7 @@
 
 namespace RuleDesignPattern.Samples.DiscountCalculation.V2.RuleDesign;
 
-internal class DiscountRuleRequest : IRuleRequest
+public class DiscountRuleRequest : IRuleRequest
 {
     public decimal Amount { get; set; }
     public bool IsCitizen { get; set; }
