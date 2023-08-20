@@ -1,7 +1,7 @@
 ﻿namespace RuleDesignPattern.RuleEngine.Tests.RuleExecutor;
 
 [TestFixture]
-internal class RuleExecutor_Execute
+internal class RuleExecutor_ExecuteShould
 {
     [Test]
     public void Execute_TRuleIsAbstractType_OrderOfExecutedRuleListsIsSame()
