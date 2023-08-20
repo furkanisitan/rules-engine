@@ -1,5 +1,8 @@
 ﻿namespace RuleDesignPattern.RuleEngine;
 
+/// <summary>
+///     Represents the base implementation of a rule.
+/// </summary>
 public interface IRule<in TRequest, TResponse>
     where TRequest : IRuleRequest
     where TResponse : IRuleResponse
