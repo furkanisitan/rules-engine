@@ -1,0 +1,71 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C645427F-372F-40BC-B1DE-BE48B371DAD7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8B06AC84-5257-4181-ABBA-EE3B57742D34}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{C81F3A32-5967-4CD7-A2A7-D53A1A70106C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RulesEngine", "src\RulesEngine\RulesEngine.csproj", "{163E223C-F54E-41C1-9284-C4B68C8CD92F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RulesEngine.Tests", "tests\RulesEngine.Tests\RulesEngine.Tests.csproj", "{01C1C647-339C-4C3D-A4CE-1ED8AF0075F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DiscountCalculation", "DiscountCalculation", "{CD9257FC-589C-41E3-AEE0-7B6676FED320}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.DiscountCalculation.Traditional", "samples\DiscountCalculation\Samples.DiscountCalculation.Traditional\Samples.DiscountCalculation.Traditional.csproj", "{0A9331FB-4508-45A1-8579-82E0CC76C144}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples.DiscountCalculation.RulePattern", "samples\DiscountCalculation\Samples.DiscountCalculation.RulePattern\Samples.DiscountCalculation.RulePattern.csproj", "{32B907C4-C23B-4DEE-B31D-2CBF530DF775}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{BA202967-BD3B-434F-A1FD-DD291A4A5E12}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DiscountCalculation", "DiscountCalculation", "{7511F88F-45C9-459A-A0F4-079629EE4392}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.DiscountCalculation.Tests", "tests\Samples\DiscountCalculation\Samples.DiscountCalculation.Tests\Samples.DiscountCalculation.Tests.csproj", "{183653C0-5908-47D1-9D49-BE7B0399E01C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{163E223C-F54E-41C1-9284-C4B68C8CD92F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{163E223C-F54E-41C1-9284-C4B68C8CD92F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{163E223C-F54E-41C1-9284-C4B68C8CD92F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{163E223C-F54E-41C1-9284-C4B68C8CD92F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01C1C647-339C-4C3D-A4CE-1ED8AF0075F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01C1C647-339C-4C3D-A4CE-1ED8AF0075F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01C1C647-339C-4C3D-A4CE-1ED8AF0075F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01C1C647-339C-4C3D-A4CE-1ED8AF0075F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A9331FB-4508-45A1-8579-82E0CC76C144}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A9331FB-4508-45A1-8579-82E0CC76C144}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A9331FB-4508-45A1-8579-82E0CC76C144}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A9331FB-4508-45A1-8579-82E0CC76C144}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32B907C4-C23B-4DEE-B31D-2CBF530DF775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32B907C4-C23B-4DEE-B31D-2CBF530DF775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32B907C4-C23B-4DEE-B31D-2CBF530DF775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32B907C4-C23B-4DEE-B31D-2CBF530DF775}.Release|Any CPU.Build.0 = Release|Any CPU
+		{183653C0-5908-47D1-9D49-BE7B0399E01C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{183653C0-5908-47D1-9D49-BE7B0399E01C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{183653C0-5908-47D1-9D49-BE7B0399E01C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{183653C0-5908-47D1-9D49-BE7B0399E01C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{163E223C-F54E-41C1-9284-C4B68C8CD92F} = {C645427F-372F-40BC-B1DE-BE48B371DAD7}
+		{01C1C647-339C-4C3D-A4CE-1ED8AF0075F1} = {8B06AC84-5257-4181-ABBA-EE3B57742D34}
+		{CD9257FC-589C-41E3-AEE0-7B6676FED320} = {C81F3A32-5967-4CD7-A2A7-D53A1A70106C}
+		{0A9331FB-4508-45A1-8579-82E0CC76C144} = {CD9257FC-589C-41E3-AEE0-7B6676FED320}
+		{32B907C4-C23B-4DEE-B31D-2CBF530DF775} = {CD9257FC-589C-41E3-AEE0-7B6676FED320}
+		{BA202967-BD3B-434F-A1FD-DD291A4A5E12} = {8B06AC84-5257-4181-ABBA-EE3B57742D34}
+		{7511F88F-45C9-459A-A0F4-079629EE4392} = {BA202967-BD3B-434F-A1FD-DD291A4A5E12}
+		{183653C0-5908-47D1-9D49-BE7B0399E01C} = {7511F88F-45C9-459A-A0F4-079629EE4392}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8D17FFDF-34D8-4950-B0EB-B987C4ADEB1F}
+	EndGlobalSection
+EndGlobal
