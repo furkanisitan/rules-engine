@@ -53,7 +53,7 @@ You can find an example usage [here](/samples/DiscountCalculation/Samples.Discou
 
 > Child rules are executed only when the parent rule on which they depend is executed.
 
-> Child Rule: The rule that has been assigned a `ParentRule` using the [RuleAttribute](/src/RulesEngine/RuleAttribute.cs).
+> Child Rule: A rule that has a parent rule.
 
 ## Sample: Discount Calculator
 
