@@ -20,5 +20,8 @@ public sealed class RuleAttribute(int executionOrder) : Attribute
     /// <summary>
     ///     Gets or sets the parent rule to which a rule depends.
     /// </summary>
+    /// <remarks>
+    ///     If this property is set, this rule will not be executed until the parent rule is executed.
+    /// </remarks>
     public Type? ParentRule { get; set; }
 }
