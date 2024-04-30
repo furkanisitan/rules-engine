@@ -55,30 +55,30 @@ You can find an example usage [here](/samples/DiscountCalculation/Samples.Discou
 
 > Child Rule: A rule that has a parent rule.
 
-## Sample: Discount Calculator
+## Example: Discount Calculation
 
-Suppose we have the following business rules for the discount calculation.
+Suppose we have a discount calculation method that implements the following business rules.
 
-* An additional 20% discount should be applied to citizens who are students.
-* An additional 25% discount should be applied to married citizens.
-* A net 50% discount should be applied to disaster victims. (It shouldn't be plugged into any limit control.)
-* Limit checks should be made at the end of the transactions. (First, the rate and then the amount should be checked.)
-    - The discount rate should be at most 40%.
-    - The discount amount must be a maximum of 10,000 units.
+* Student citizens should receive an additional 20% discount.
+* Married citizens should receive an additional 25% discount.
+* Disaster victims should receive a net 50% discount. (No limit controls should be applied). 
+* Limit checks should be made at the end of the transactions. (First the rate and then the amount should be checked.)
+    - The maximum discount rate can be 40%.
+    - The maximum discount amount can be 10,000.
 
 > Here are examples that apply these business rules both with the [traditional method](/samples/DiscountCalculation/Samples.DiscountCalculation.Traditional/V1/) and with the [rule pattern method](/samples/DiscountCalculation/Samples.DiscountCalculation.RulePattern/V1/).
 
-Let's assume that in the future, this discount calculation logic should be changed according to the following business rules.
+Let's imagine that over time it is necessary to make changes to existing business rules, to add new business rules.
 
-* Citizenship control should be removed in discounts for students.
-* Citizens who are married should receive an additional 2% discount for each child. (Up to 5 children maximum.)
+* Citizenship checks should be removed from student discounts.
+* Married citizens -up to a maximum of 5 children- should receive an additional 2% discount for each child.
 
 > Here are the second versions of the [traditional method](/samples/DiscountCalculation/Samples.DiscountCalculation.Traditional/V2/) and the [rule pattern method](/samples/DiscountCalculation/Samples.DiscountCalculation.RulePattern/V2/).
 
-### Implementation Stages of Changes
+### Implementation Stages of the Changes
 
-* Citizenship control has been removed from [StudentDiscountRule](/samples/DiscountCalculation/Samples.DiscountCalculation.RulePattern/V2/Rules/StudentDiscountRule.cs).
-* A new rule class named [ChildDiscountRule](/samples/DiscountCalculation/Samples.DiscountCalculation.RulePattern/V2/Rules/ChildDiscountRule.cs) has been defined.
+* Citizenship check has been removed from [StudentDiscountRule](/samples/DiscountCalculation/Samples.DiscountCalculation.RulePattern/V2/Rules/StudentDiscountRule.cs).
+* A new rule class called [ChildDiscountRule](/samples/DiscountCalculation/Samples.DiscountCalculation.RulePattern/V2/Rules/ChildDiscountRule.cs) is defined.
 
 ## Author
 
