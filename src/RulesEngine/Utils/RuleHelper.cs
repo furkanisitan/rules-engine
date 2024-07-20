@@ -42,6 +42,7 @@ internal static class RuleHelper
         where TRuleRequest : IRuleRequest
         where TRuleResponse : IRuleResponse
     {
+        ArgumentNullException.ThrowIfNull(rule);
         return GetRules<TRule, TRuleRequest, TRuleResponse>(assemblies, x => x.Attribute.ParentRule == rule.GetType());
     }
 
