@@ -2,13 +2,14 @@
 
 public abstract class DummyOtherBaseRule : IDummyRule
 {
-    public bool CanApply(DummyRuleRequest request, DummyRuleResponse response)
+    public virtual bool CanApply(DummyRuleRequest request, DummyRuleResponse response)
     {
         return true;
     }
 
-    public DummyRuleResponse Apply(DummyRuleRequest request, DummyRuleResponse response)
+    public virtual DummyRuleResponse Apply(DummyRuleRequest request, DummyRuleResponse response)
     {
+        response.AppliedRuleNames.Add(GetType().Name);
         return response;
     }
 }

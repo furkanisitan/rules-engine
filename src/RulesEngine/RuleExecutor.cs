@@ -79,6 +79,7 @@ public static class RuleExecutor
 
             var childRules = RuleHelper.GetChildRulesOf<TRule, TRequest, TResponse>(rule, assemblies);
             response = ExecuteRules(childRules, request, response, assemblies);
+            if (response.CanStopRulesExecution) return response;
         }
 
         return response;

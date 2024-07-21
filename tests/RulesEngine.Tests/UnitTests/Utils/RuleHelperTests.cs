@@ -1,5 +1,6 @@
 ﻿using RulesEngine.Tests.Common.Rules;
 using RulesEngine.Tests.Common.Utilities;
+using RulesEngine.Utils;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -17,7 +18,7 @@ public class RuleHelperTests
         var assemblies = Array.Empty<Assembly>();
 
         // Act
-        var mainRules = RulesEngine.Utils.RuleHelper
+        var mainRules = RuleHelper
             .GetMainRules<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>(assemblies)
             .ToList();
 
@@ -40,7 +41,7 @@ public class RuleHelperTests
         var assemblies = new[] { dynamicRuleClassGenerator.Assembly };
 
         // Act
-        var mainRules = RulesEngine.Utils.RuleHelper
+        var mainRules = RuleHelper
             .GetMainRules<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>(assemblies)
             .ToList();
 
@@ -62,7 +63,7 @@ public class RuleHelperTests
         var assemblies = new[] { dynamicRuleClassGenerator.Assembly };
 
         // Act
-        var mainRules = RulesEngine.Utils.RuleHelper
+        var mainRules = RuleHelper
             .GetMainRules<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>(assemblies)
             .ToList();
 
@@ -88,7 +89,7 @@ public class RuleHelperTests
         var assemblies = new[] { dynamicRuleClassGenerator.Assembly };
 
         // Act
-        var mainRules = RulesEngine.Utils.RuleHelper
+        var mainRules = RuleHelper
             .GetMainRules<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>(assemblies)
             .ToList();
 
@@ -113,7 +114,7 @@ public class RuleHelperTests
         var assemblies = new[] { dynamicRuleClassGenerator.Assembly };
 
         // Act
-        var mainRules = RulesEngine.Utils.RuleHelper
+        var mainRules = RuleHelper
             .GetMainRules<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>(assemblies)
             .ToList();
 
@@ -139,7 +140,7 @@ public class RuleHelperTests
 
         // Act
         stopwatch.Start();
-        RulesEngine.Utils.RuleHelper.GetMainRules<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>([.. assemblies]);
+        RuleHelper.GetMainRules<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>([.. assemblies]);
         stopwatch.Stop();
 
         // Assert
@@ -159,7 +160,7 @@ public class RuleHelperTests
         var assemblies = new[] { dynamicRuleClassGenerator.Assembly };
 
         // Act
-        var mainRules = RulesEngine.Utils.RuleHelper
+        var mainRules = RuleHelper
             .GetMainRules<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>(assemblies)
             .ToList();
 
@@ -188,7 +189,7 @@ public class RuleHelperTests
         var assemblies = new[] { dynamicRuleClassGenerator.Assembly };
 
         // Act
-        var childRules = RulesEngine.Utils.RuleHelper
+        var childRules = RuleHelper
             .GetChildRulesOf<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>(parentRule, assemblies)
             .ToList();
 
@@ -214,7 +215,7 @@ public class RuleHelperTests
         var assemblies = new[] { dynamicRuleClassGenerator.Assembly };
 
         // Act
-        var childRules = RulesEngine.Utils.RuleHelper
+        var childRules = RuleHelper
             .GetChildRulesOf<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>(parentRule, assemblies)
             .ToList();
 
@@ -242,7 +243,7 @@ public class RuleHelperTests
         var assemblies = new[] { dynamicRuleClassGenerator.Assembly };
 
         // Act
-        var childRules = RulesEngine.Utils.RuleHelper
+        var childRules = RuleHelper
             .GetChildRulesOf<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>(parentRule, assemblies)
             .ToList();
 
@@ -260,7 +261,7 @@ public class RuleHelperTests
 
         // Act & Assert
         Assert.Throws<ArgumentNullException>(
-            () => RulesEngine.Utils.RuleHelper.GetChildRulesOf<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>(parentRule, assemblies),
+            () => RuleHelper.GetChildRulesOf<DummyBaseRule, DummyRuleRequest, DummyRuleResponse>(parentRule, assemblies),
             "Method should throw ArgumentNullException when the parent rule is null."
         );
     }
